@@ -1,0 +1,10 @@
+
+.DS_Store
+*.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
+
+.vscode
+
+SPFD5408TFTLCDLib-master
