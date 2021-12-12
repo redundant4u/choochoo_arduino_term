@@ -3,55 +3,55 @@
 #include <SPFD5408_TouchScreen.h>
 
 #include "TFT_LCD.h"
+#include "Joystick.h"
+
+int currentX = MAZE_START_X + 15;
+int currentY = MAZE_START_Y + 5;
 
 SPFD5408TFTLCDLib tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
-TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 void setup() {
   Serial.begin(9600);
 
-  tft.reset();
-  tft.begin(0x9341);
-  tft.setRotation(3);
+  initLCD();
+  drawMaze();
 
-  tft.fillScreen(WHITE);
-
-  tft.setCursor(60, 50);
-  tft.setTextSize(3);
-  tft.setTextColor(BLACK);
-  tft.println("Maze Game");
-
-  pinMode(13, OUTPUT);
-
-  Serial.println("Start");
+  initJoystick();
 }
 
 void loop() {
-  digitalWrite(13, HIGH);
-  TSPoint p = ts.getPoint();
-  digitalWrite(13, LOW);
+  int joystickX = analogRead(JOYSTICK_X);
+  int joystickY = analogRead(JOYSTICK_Y);
+  int joystickZ = digitalRead(JOYSTICK_Z);
 
-  pinMode(XM, OUTPUT);
-  pinMode(YP, OUTPUT);
+  Serial.println(checkBoundary(currentX, currentY));
 
-  waitOneTouch();
+  switch (joystickStatus(joystickX, joystickY))
+  {
+    case UP:
+      // Serial.println("UP");
+      moveUp(currentX, currentY);
+      currentY -= MOVE;
+      break;
+    case RIGHT:
+      // Serial.println("RIGHT");
+      moveRight(currentX, currentY);
+      currentX += MOVE;
+      break;
+    case DOWN:
+      // Serial.println("DOWN");
+      moveDown(currentX, currentY);
+      currentY += MOVE;
+      break;
+    case LEFT:
+      // Serial.println("LEFT");
+      moveLeft(currentX, currentY);
+      currentX -= MOVE;
+      break;
+    default:
+      // Serial.println("NOTHING");
+      break;
+  }
 
-  Serial.print("X: ");
-  Serial.println(p.x);
-  Serial.print("Y: ");
-  Serial.println(p.y);
-}
-
-TSPoint waitOneTouch() {
-  TSPoint p;
-
-  do {
-    p= ts.getPoint();
-
-    pinMode(XM, OUTPUT); //Pins configures again for TFT control
-    pinMode(YP, OUTPUT);
-
-  } while((p.z < MINPRESSURE )|| (p.z > MAXPRESSURE));
-
-  return p;
+  delay(150);
 }
