@@ -1,3 +1,5 @@
+#include "Joystick.h"
+
 void initJoystick(void)
 {
     pinMode(JOYSTICK_Z, INPUT_PULLUP);

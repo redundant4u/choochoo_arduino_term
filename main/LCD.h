@@ -4,6 +4,11 @@
 #define LCD_RD      A0
 #define LCD_RESET   A4
 
+#define YP  A1
+#define XM  A2
+#define YM  7
+#define XP  6
+
 #define BLACK   0x0000
 #define BLUE    0x001F
 #define RED     0xF800
@@ -16,22 +21,10 @@
 #define TITLE_TEXT_X 110
 #define TITLE_TEXT_Y 30
 
-#define MAZE_START_X    20
-#define MAZE_START_Y    60
-#define MAZE_STROKE     3
-#define MAZE_END_X      280
-#define MAZE_END_Y      160
+#define SENSIBILITY 300
+#define MINPRESSURE 10
+#define MAXPRESSURE 1000
 
 #define MOVE            5
 
 #define CIRCLE_RADIUS   3
-
-void initLCD(void);
-void drawMaze(void);
-
-boolean checkBoundary(int x, int y);
-
-void moveUp(int x, int y);
-void moveRight(int x, int y);
-void moveDown(int x, int y);
-void moveLeft(int x, int y);
