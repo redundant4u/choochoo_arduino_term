@@ -13,7 +13,7 @@ void setup() {
   }
 
   randomSeed(analogRead(0));
-  n = random(0,3);
+  n = random(3);
   Serial.println("LED is : " + String(n));
 }
 
