@@ -10,16 +10,11 @@ extern int stage;
 
 int iPitches[] = {NOTE_C4, NOTE_D4, NOTE_E4, NOTE_F4, NOTE_G4, NOTE_A4, NOTE_B4, NOTE_C5, 0};
 int randomPitch;
-// char cpitches[] = "CDEFGABC";
 unsigned long timePrev, timeCur;
-boolean tFlag = false; // ?
+boolean tFlag = false;
 
 void initFindPitch()
 {
-   tft.reset();
-   tft.begin(0x9341);
-    tft.setRotation(0);
-
     tft.fillScreen(WHITE);
 
     randomSeed(analogRead(0));
@@ -59,14 +54,14 @@ void findPitch()
         }
         else
         {
+            Serial.println(timePrev);
+            Serial.println(timeCur);
             timeCur = millis();
 
-            if (timeCur - timePrev >= 3000)
+            if (timeCur - timePrev >= 1500)
             {
                 Serial.println("Correct!");
                 tFlag = false;
-                
-                speakerPitch = 8;
 
                 initFlag = true;
                 stage = SelectLED;
@@ -79,6 +74,7 @@ void findPitch()
     }
 
     tone(SPEAKER, iPitches[speakerPitch]);
+    if(stage == SelectLED) { noTone(SPEAKER); }
 
     tft.fillRect(200, 215, 15, 15, WHITE);
 

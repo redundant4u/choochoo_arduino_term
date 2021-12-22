@@ -1,6 +1,7 @@
 #include <SPFD5408_Adafruit_GFX.h>
 #include <SPFD5408TFTLCDLib.h>
 #include <SPFD5408_TouchScreen.h>
+#include <TimerOne.h>
 
 enum
 {
@@ -11,11 +12,14 @@ enum
 };
 
 boolean initFlag = true;
-int stage = TouchCircle;
+int stage = MAZE;
 
 void setup()
 {
     Serial.begin(9600);
+
+    initSegment();
+    initTimerInterrupt();
 }
 
 void loop()
@@ -62,6 +66,7 @@ void loop()
         if(initFlag)
         {
             initSelectLED();
+            initBluetooth();
             initFlag = false;
         }
 

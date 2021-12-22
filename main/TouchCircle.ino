@@ -27,7 +27,7 @@ void touchCircleManuel()
 
     randomSeed(analogRead(0));
 
-    delay(2500);
+    delay(1000);
 }
 
 // Map the coordinate X
@@ -59,9 +59,9 @@ void touchCircle(void)
 
     tft.fillScreen(BLACK);
 
-    int randx = random(tft.width());
-    int randy = random(tft.height());
-    int randr = random(20, 50);
+    int randx = random(tft.width() - 30);
+    int randy = random(tft.height() - 30);
+    int randr = random(25, 50);
     int randc = random(6);
 
     tft.fillCircle(randx, randy, randr, colors[randc]); //show the first point 파라미터 : x좌표 y좌표 반지름 색
@@ -70,7 +70,7 @@ void touchCircle(void)
     do
     {
         p1 = waitOneTouch();
-    } while (sqrt((mapXValue(p1) - randx) * (mapXValue(p1) - randx) + (mapYValue(p1) - randy) * (mapYValue(p1) - randy)) > randr);
+    } while (sqrt(((mapXValue(p1) - randx) * (mapXValue(p1) - randx)) + ((mapYValue(p1) - randy) * (mapYValue(p1) - randy))) > randr * 2 - 10);
 
     count++;
 

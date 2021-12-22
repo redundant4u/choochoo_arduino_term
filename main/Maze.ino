@@ -13,7 +13,7 @@ int currentY = MAZE_START_Y + 5;
 
 void maze() {
   if(checkClear(currentX, currentY))  { initFlag = true; stage = TouchCircle; }
-  // if(checkBoundary(currentX, currentY)) maze();
+  if(checkBoundary(currentX, currentY)) { retryMaze(); }
 
   int joystickX = analogRead(JOYSTICK_X);
   int joystickY = analogRead(JOYSTICK_Y);
@@ -45,7 +45,7 @@ void maze() {
       break;
   }
 
-  delay(20);
+  delay(100);
 }
 
 void drawMaze(void)
@@ -103,7 +103,10 @@ void drawMaze(void)
 
 boolean checkClear(int x, int y)
 {
-  if(((MAZE_START_X + 250 <= x) && (x <= MAZE_END_X + 10)) && (MAZE_START_Y + MAZE_END_Y + 5 <= y))
+  if(
+    ((MAZE_START_X + 250 <= x) && (x <= MAZE_END_X + 10)) &&
+    ((MAZE_START_Y + 155 <= y) && (y <= MAZE_END_Y + 65))
+  )
     return true;
 
   return false;
@@ -212,4 +215,14 @@ void moveLeft(int x, int y)
 {
   tft.fillCircle(x, y, CIRCLE_RADIUS, WHITE);
   tft.fillCircle(x - MOVE, y, CIRCLE_RADIUS, RED);
+}
+
+void retryMaze(void)
+{
+  currentX = MAZE_START_X + 15;
+  currentY = MAZE_START_Y + 5;
+
+  tft.fillScreen(WHITE);
+
+  drawMaze();
 }

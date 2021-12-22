@@ -12,8 +12,6 @@ int correctLEDNum;
 
 void initSelectLED()
 {
-    tft.reset();
-    tft.begin(0x9341);
     tft.setRotation(0);
 
     tft.fillScreen(WHITE);
@@ -28,20 +26,23 @@ void initSelectLED()
     randomSeed(analogRead(0));
 
     correctLEDNum = random(NUM_OF_PINS);
-    Serial.println("LED is : " + String(correctLEDNum));
+    Serial.println("LED is : " + String(correctLEDNum + 1));
 
     selectLEDManuel();
 }
 
 void selectLEDManuel()
 {
-    tft.setCursor(35, 140);
+    tft.setCursor(20, 140);
     tft.setTextSize(2);
     tft.setTextColor(BLACK);
-    tft.println("Select one of");
+    tft.println("Choose LED color");
 
-    tft.setCursor(35, 165);
-    tft.println("the buttons");
+    tft.setCursor(20, 165);
+    tft.println("from r, y, g");
+
+    tft.setCursor(20, 190);
+    tft.println("using bluetooth");
 }
 
 void selectLED()
@@ -52,12 +53,16 @@ void selectLED()
     {
     case CORRECT:
         digitalWrite(leds[correctLEDNum], HIGH);
+        gameComplete();
         break;
 
     case FAIL:
     {
         for (int i = 0; i < NUM_OF_PINS; i++)
+        {
             digitalWrite(leds[i], HIGH);
+        }
+        gameOver();
         break;
     }
 
@@ -70,32 +75,25 @@ void selectLED()
 
 int correctLED(int pin)
 {
-    for (int i = 0; i < NUM_OF_PINS; i++)
+    int bluetoothData = receiveDataFromBluetooth();
+    int result = WAIT;
+
+    if(bluetoothData > -1)
     {
-        if (digitalRead(buttons[i]))
+        Serial.print("Data: ");
+        Serial.println(bluetoothData);
+        if(bluetoothData == correctLEDNum + 1)
         {
-            if (pin == i)
-                return CORRECT;
-            return FAIL;
+            Serial.println("CLEAR");
+            result = CORRECT;
+        }
+
+        else
+        {
+            Serial.println("FAIL");
+            result = FAIL;
         }
     }
 
-    return WAIT;
-
-    // if(digitalRead(buttons[0]))
-    // {
-    //   if(pin == 0) return 1;
-    //   else return 2;
-    // }
-    // if(digitalRead(buttons[1]))
-    // {
-    //   if(pin == 1) return 1;
-    //   else return 2;
-    // }
-    // if(digitalRead(buttons[2]))
-    // {
-    //   if(pin == 2) return 1;
-    //   else return 2;
-    // }
-    // return 0;
+    return result;
 }
