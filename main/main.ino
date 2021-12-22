@@ -5,11 +5,13 @@
 enum
 {
     MAZE = 0,
-    TouchCircle
+    TouchCircle,
+    FindPitch,
+    SelectLED
 };
 
 boolean initFlag = true;
-int stage = MAZE;
+int stage = TouchCircle;
 
 void setup()
 {
@@ -42,6 +44,28 @@ void loop()
         }
 
         touchCircle();
+        break;
+    }
+    case FindPitch:
+    {
+        if(initFlag)
+        {
+            initFindPitch();
+            initFlag = false;
+        }
+
+        findPitch();
+        break;
+    }
+    case SelectLED:
+    {
+        if(initFlag)
+        {
+            initSelectLED();
+            initFlag = false;
+        }
+
+        selectLED();
         break;
     }
     }

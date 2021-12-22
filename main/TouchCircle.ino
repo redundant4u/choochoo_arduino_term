@@ -1,8 +1,11 @@
 #include "LCD.h"
 
-#define CORRECT 5
+#define COUNT_CHECK 5
 
 extern SPFD5408TFTLCDLib tft;
+extern boolean initFlag;
+extern int stage;
+
 int count = 0;
 
 void touchCircleManuel()
@@ -15,12 +18,14 @@ void touchCircleManuel()
     tft.fillRect(border, border, (width - border * 2), (height - border * 2), WHITE);
 
     // Initial screen
-    tft.setCursor (50, 135); //textsize 2기준 y축 10~295
-    tft.setTextSize (2);
+    tft.setCursor(50, 135); //textsize 2기준 y축 10~295
+    tft.setTextSize(2);
     tft.setTextColor(BLACK);
     tft.println("Please touch");
-    tft.setCursor (75, 155);
+    tft.setCursor(75, 155);
     tft.println("the dot");
+
+    randomSeed(analogRead(0));
 
     delay(2500);
 }
@@ -47,14 +52,12 @@ uint16_t mapYValue(TSPoint p)
 
 void touchCircle(void)
 {
-    if(count == CORRECT) { }
+    if(count == COUNT_CHECK) { initFlag = true; stage = FindPitch; }
 
     TSPoint p1;
     unsigned int colors[] = {BLUE, RED, GREEN, CYAN, MAGENTA, YELLOW};
 
     tft.fillScreen(BLACK);
-
-    randomSeed(analogRead(0));
 
     int randx = random(tft.width());
     int randy = random(tft.height());
@@ -67,7 +70,7 @@ void touchCircle(void)
     do
     {
         p1 = waitOneTouch();
-        correct++;
+        count++;
 
     } while (sqrt((mapXValue(p1) - randx) * (mapXValue(p1) - randx) + (mapYValue(p1) - randy) * (mapYValue(p1) - randy)) > randr);
 

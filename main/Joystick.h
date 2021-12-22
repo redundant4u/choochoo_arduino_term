@@ -14,6 +14,3 @@ enum JoyStickStatus
     DOWN,
     LEFT
 };
-
-void initJoystick(void);
-int joystickStatus(int xValue, int yValue);
