@@ -8,7 +8,7 @@ extern SPFD5408TFTLCDLib tft;
 extern boolean initFlag;
 extern int stage;
 
-int iPitches[] = {NOTE_C4, NOTE_D4, NOTE_E4, NOTE_F4, NOTE_G4, NOTE_A4, NOTE_B4, NOTE_C5};
+int iPitches[] = {NOTE_C4, NOTE_D4, NOTE_E4, NOTE_F4, NOTE_G4, NOTE_A4, NOTE_B4, NOTE_C5, 0};
 int randomPitch;
 // char cpitches[] = "CDEFGABC";
 unsigned long timePrev, timeCur;
@@ -16,8 +16,8 @@ boolean tFlag = false; // ?
 
 void initFindPitch()
 {
-    tft.reset();
-    tft.begin(0x9341);
+   tft.reset();
+   tft.begin(0x9341);
     tft.setRotation(0);
 
     tft.fillScreen(WHITE);
@@ -49,7 +49,7 @@ void findPitch()
 {
     int adc = analogRead(POTENTIOMETER);
     int speakerPitch = map(adc, 0, 1023, 0, 7);
-
+    
     if (randomPitch == speakerPitch)
     {
         if (!tFlag)
@@ -65,8 +65,8 @@ void findPitch()
             {
                 Serial.println("Correct!");
                 tFlag = false;
-                while (true)
-                    noTone(SPEAKER);
+                
+                speakerPitch = 8;
 
                 initFlag = true;
                 stage = SelectLED;
@@ -86,6 +86,5 @@ void findPitch()
     tft.print("Current sound:");
     tft.println(String(speakerPitch));
     
-    // Serial.println("ADC : " + String(speakerPitch));
     delay(500);
 }

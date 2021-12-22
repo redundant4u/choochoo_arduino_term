@@ -1,6 +1,6 @@
 #include "LCD.h"
 
-#define COUNT_CHECK 5
+#define COUNT_CHECK 4
 
 extern SPFD5408TFTLCDLib tft;
 extern boolean initFlag;
@@ -61,7 +61,7 @@ void touchCircle(void)
 
     int randx = random(tft.width());
     int randy = random(tft.height());
-    int randr = random(10, 50);
+    int randr = random(20, 50);
     int randc = random(6);
 
     tft.fillCircle(randx, randy, randr, colors[randc]); //show the first point 파라미터 : x좌표 y좌표 반지름 색
@@ -70,9 +70,9 @@ void touchCircle(void)
     do
     {
         p1 = waitOneTouch();
-        count++;
-
     } while (sqrt((mapXValue(p1) - randx) * (mapXValue(p1) - randx) + (mapYValue(p1) - randy) * (mapYValue(p1) - randy)) > randr);
+
+    count++;
 
     tft.fillScreen(BLACK);
     delay(50);
