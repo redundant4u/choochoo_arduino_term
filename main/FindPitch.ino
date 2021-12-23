@@ -15,27 +15,28 @@ boolean tFlag = false;
 
 void initFindPitch()
 {
+    tft.setRotation(3);
+
     tft.fillScreen(WHITE);
 
     randomSeed(analogRead(0));
     randomPitch = random(8);
 
-    // Serial.println(cpitches[randomPitch]);
-    tone(SPEAKER, iPitches[randomPitch], 1000);
-    delay(1000);
-    noTone(SPEAKER);
-
     findPitchManuel();
+
+    tone(SPEAKER, iPitches[randomPitch], 1000);
+    delay(1500);
+    noTone(SPEAKER);
 }
 
 void findPitchManuel()
 {
-    tft.setCursor(35, 100);
+    tft.setCursor(80, 80);
     tft.setTextSize(2);
     tft.setTextColor(BLACK);
     tft.println("Guess the sound");
 
-    tft.setCursor(35, 175);
+    tft.setCursor(80, 130);
     tft.print("Goal sound:");
     tft.println(String(randomPitch));
 }
@@ -54,8 +55,6 @@ void findPitch()
         }
         else
         {
-            Serial.println(timePrev);
-            Serial.println(timeCur);
             timeCur = millis();
 
             if (timeCur - timePrev >= 1500)
@@ -76,9 +75,9 @@ void findPitch()
     tone(SPEAKER, iPitches[speakerPitch]);
     if(stage == SelectLED) { noTone(SPEAKER); }
 
-    tft.fillRect(200, 215, 15, 15, WHITE);
+    tft.fillRect(245, 155, 15, 15, WHITE);
 
-    tft.setCursor(35, 215);
+    tft.setCursor(80, 155);
     tft.print("Current sound:");
     tft.println(String(speakerPitch));
     

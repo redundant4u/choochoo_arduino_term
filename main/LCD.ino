@@ -16,21 +16,20 @@ void initMazeLCD(void)
 
 void initTouchCircleLCD(void)
 {
-    tft.setRotation(0);
     touchCircleManuel();
 }
 
 void gameComplete(void)
 {
-    tft.setRotation(0);
+    tft.setRotation(3);
 
     tft.fillScreen(WHITE);
 
-    tft.setCursor(40, 135);
+    tft.setCursor(80, 80);
     tft.setTextSize(2);
     tft.setTextColor(BLACK);
     tft.println("Congratulation!");
-    tft.setCursor(30, 165);
+    tft.setCursor(70, 115);
     tft.println("You are the best!");
 
     Timer1.stop();
@@ -38,15 +37,15 @@ void gameComplete(void)
 
 void gameOver(void)
 {
-    tft.setRotation(0);
+    tft.setRotation(3);
 
     tft.fillScreen(WHITE);
 
-    tft.setCursor(60, 135);
+    tft.setCursor(100, 80);
     tft.setTextSize(2);
     tft.setTextColor(BLACK);
     tft.println("Game Over...");
-    tft.setCursor(15, 165);
+    tft.setCursor(60, 115);
     tft.println("Press Reset Button");
 
     Timer1.stop();

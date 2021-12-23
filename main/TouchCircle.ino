@@ -18,16 +18,17 @@ void touchCircleManuel()
     tft.fillRect(border, border, (width - border * 2), (height - border * 2), WHITE);
 
     // Initial screen
-    tft.setCursor(50, 135); //textsize 2기준 y축 10~295
+    tft.setCursor(80, 90); //textsize 2기준 y축 10~295
     tft.setTextSize(2);
     tft.setTextColor(BLACK);
     tft.println("Please touch");
-    tft.setCursor(75, 155);
+    tft.setCursor(80, 115);
     tft.println("the dot");
 
     randomSeed(analogRead(0));
+    tft.setRotation(0);
 
-    delay(1000);
+    delay(1500);
 }
 
 // Map the coordinate X

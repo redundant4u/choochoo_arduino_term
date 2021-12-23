@@ -12,8 +12,6 @@ int correctLEDNum;
 
 void initSelectLED()
 {
-    tft.setRotation(0);
-
     tft.fillScreen(WHITE);
 
     for (int i = 0; i < NUM_OF_PINS; i++)
@@ -33,15 +31,15 @@ void initSelectLED()
 
 void selectLEDManuel()
 {
-    tft.setCursor(20, 140);
+    tft.setCursor(80, 80);
     tft.setTextSize(2);
     tft.setTextColor(BLACK);
     tft.println("Choose LED color");
 
-    tft.setCursor(20, 165);
+    tft.setCursor(80, 115);
     tft.println("from r, y, g");
 
-    tft.setCursor(20, 190);
+    tft.setCursor(80, 150);
     tft.println("using bluetooth");
 }
 
